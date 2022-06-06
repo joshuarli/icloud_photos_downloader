@@ -1,7 +1,7 @@
 -e ./pyicloud
 schema==0.7.4
-click
+httpx==0.23.0
+click>=7
 python_dateutil==2.8.2
-requests>=2.20.0
 tqdm==4.62.0
 piexif==1.1.3

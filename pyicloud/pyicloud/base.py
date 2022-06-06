@@ -3,7 +3,7 @@ from uuid import uuid1
 import inspect
 import json
 import logging
-from requests import Session
+from httpx import Client
 from tempfile import gettempdir
 from os import path, mkdir
 from re import match
@@ -55,7 +55,7 @@ class PyiCloudPasswordFilter(logging.Filter):
         return True
 
 
-class PyiCloudSession(Session):
+class PyiCloudSession(Client):
     """iCloud session."""
 
     def __init__(self, service):
@@ -93,13 +93,10 @@ class PyiCloudSession(Session):
             LOGGER.debug("Saved session data to file")
 
         # Save cookies to file
-        self.cookies.save(ignore_discard=True, ignore_expires=True)
-        LOGGER.debug("Cookies saved to %s", self.service.cookiejar_path)
+#        self.cookies.save(ignore_discard=True, ignore_expires=True)
+#        LOGGER.debug("Cookies saved to %s", self.service.cookiejar_path)
 
-        if not response.ok and (
-            content_type not in json_mimetypes
-            or response.status_code in [421, 450, 500]
-        ):
+        if response.status_code in [421, 450, 500] or content_type not in json_mimetypes:
             try:
                 # pylint: disable=protected-access
                 fmip_url = self.service._get_webservice_url("findme")
@@ -124,13 +121,13 @@ class PyiCloudSession(Session):
 
             if has_retried is None and response.status_code in [421, 450, 500]:
                 api_error = PyiCloudAPIResponseException(
-                    response.reason, response.status_code, retry=True
+                    response.text, response.status_code, retry=True
                 )
                 request_logger.debug(api_error)
                 kwargs["retried"] = True
                 return self.request(method, url, **kwargs)
 
-            self._raise_error(response.status_code, response.reason)
+            self._raise_error(response.status_code, response.text)
 
         if content_type not in json_mimetypes:
             return response

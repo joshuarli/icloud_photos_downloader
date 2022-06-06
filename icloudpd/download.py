@@ -5,7 +5,7 @@ import socket
 import time
 import logging
 from tzlocal import get_localzone
-from requests.exceptions import ConnectionError  # pylint: disable=redefined-builtin
+from httpx import RequestError
 from pyicloud.exceptions import PyiCloudException
 from icloudpd.logger import setup_logger
 
@@ -65,7 +65,7 @@ def download_media(icloud, photo, download_path, size):
             )
             break
 
-        except (ConnectionError, socket.timeout, PyiCloudException) as ex:
+        except (RequestError, socket.timeout, PyiCloudException) as ex:
             if "Invalid global session" in str(ex):
                 logger.tqdm_write(
                     "Session error, re-authenticating...",

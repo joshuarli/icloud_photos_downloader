@@ -1,7 +1,4 @@
-from setuptools import setup, find_packages
-
-with open("requirements.txt") as f:
-    required = f.read().splitlines()
+from setuptools import setup
 
 setup(
     name="icloudpd",
@@ -13,8 +10,6 @@ setup(
     maintainer="Nathan Broadbent",
     maintainer_email="icloudpd@ndbroadbent.com",
     license="MIT",
-    packages=find_packages(),
-    install_requires=required,
     classifiers=[
         "Intended Audience :: Developers",
         "Operating System :: OS Independent",

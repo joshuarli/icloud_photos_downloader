@@ -7,7 +7,7 @@ import mimetypes
 import os
 import time
 from re import search
-from requests import Response
+from httpx import Response
 
 from pyicloud.exceptions import PyiCloudAPIResponseException
 
