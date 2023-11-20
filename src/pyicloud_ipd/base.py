@@ -27,7 +27,7 @@ from pyicloud_ipd.services import (
     PhotosService,
     AccountService
 )
-from pyicloud_ipd.utils import get_password_from_keyring
+from pyicloud_ipd.utils import get_password
 
 if six.PY3:
     import http.cookiejar as cookielib
@@ -143,7 +143,7 @@ class PyiCloudService(object):
         client_id=None
     ):
         if password is None:
-            password = get_password_from_keyring(apple_id)
+            password = get_password(apple_id)
 
         self.data = {}
         self.client_id = client_id or str(uuid.uuid1()).upper()

@@ -1,5 +1,4 @@
 import getpass
-import keyring
 import sys
 
 from .exceptions import NoStoredPasswordAvailable
@@ -9,17 +8,11 @@ KEYRING_SYSTEM = 'pyicloud://icloud-password'
 
 
 def get_password(username, interactive=sys.stdout.isatty()):
-    try:
-        return get_password_from_keyring(username)
-    except NoStoredPasswordAvailable:
-        if not interactive:
-            raise
-
-        return getpass.getpass(
-            'Enter iCloud password for {username}: '.format(
-                username=username,
-            )
+    return getpass.getpass(
+        'Enter iCloud password for {username}: '.format(
+            username=username,
         )
+    )
 
 
 def password_exists_in_keyring(username):

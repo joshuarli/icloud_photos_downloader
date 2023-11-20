@@ -36,8 +36,6 @@ dependencies = [
     "pytz==2022.7.1",
     "certifi==2022.12.7",
     "future==0.18.3",
-    "keyring==23.13.1",
-    "keyrings-alt==4.2.0"
 ]
 
 [project.optional-dependencies]
@@ -81,7 +79,7 @@ log_date_format = "%Y-%m-%d %H:%M:%S"
 timeout = 300
 testpaths = [
     "tests",
-    "src" # needed for doctests    
+    "src" # needed for doctests
 ]
 pythonpath = [
     "src"
